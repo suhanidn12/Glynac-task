@@ -1,31 +1,44 @@
 "use client";
 
 import React from "react";
-import { useRouter } from "next/navigation";
-import DashboardLayout from "../../../components/layout/DashboardLayout";
 
-export default function ClientOnboardingView() {
-  const router = useRouter();
+export type DashboardLayoutProps = {
+  children: React.ReactNode;
 
+  currentPath?: string;
+  dashboardTitle?: string;
+  userName?: string;
+  userInitials?: string;
+
+  currentTab?: string;
+  onNavigate?: (path: string) => void;
+  onTabChange?: (tab: string) => void;
+  onAIClick?: () => void;
+};
+
+export default function DashboardLayout({
+  children,
+  dashboardTitle,
+  userName,
+  userInitials,
+}: DashboardLayoutProps) {
   return (
-    <DashboardLayout
-      currentPath="/dashboard/client-onboarding"
-      dashboardTitle="Client Onboarding"
-      userName="Sarah Johnson - Senior Financial Advisor"
-      userInitials="SJ"
-      currentTab="client-onboarding"
-      onNavigate={(path) => router.push(path)}
-      onTabChange={(tab) => console.log(tab)}
-      onAIClick={() => console.log("AI clicked")}
-    >
-      <>
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold">Client Onboarding</h1>
-          <p className="text-gray-600">
-            Pipeline tracking and onboarding management
-          </p>
+    <div className="min-h-screen bg-gray-50">
+      {/* Top bar */}
+      <div className="bg-white shadow px-6 py-4 flex justify-between items-center">
+        <h1 className="text-lg font-semibold">
+          {dashboardTitle || "Dashboard"}
+        </h1>
+
+        <div className="flex items-center space-x-3">
+          <div className="text-sm text-gray-600">{userName}</div>
+          <div className="w-8 h-8 bg-gray-800 text-white rounded-full flex items-center justify-center text-xs">
+            {userInitials}
+          </div>
         </div>
-      </>
-    </DashboardLayout>
+      </div>
+
+      <div className="p-6">{children}</div>
+    </div>
   );
 }
